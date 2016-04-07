@@ -1,0 +1,26 @@
+{
+  "name": "latex_to_png",
+  "version": "1.0.0",
+  "description": "Wrapper for latex and imageMagick",
+  "main": "latex_to_png.js",
+  "scripts": {
+    "test": "NODE_ENV=test mocha"
+  },
+  "keywords": [
+    "latex",
+    "png",
+    "formula",
+    "math",
+    "images"
+  ],
+  "author": "Luiz Zamboni",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.4.1",
+    "tmp": "0.0.28"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5"
+  }
+}
