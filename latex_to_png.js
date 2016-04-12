@@ -5,6 +5,7 @@ var template = fs.readFileSync('./templates/equation.tex.ejs', 'utf-8');
 var tmp = require('tmp');
 var path = require('path')
 const execSync = require('child_process').execSync;
+const exec = require('child_process').exec;
 
 
 var latex_to_png = {
@@ -26,20 +27,11 @@ var latex_to_png = {
 				'convert -density '+ density + 'x'+density + ' ' + name + '.ps '  + name + '.png' 
 
 
-		const rm_cmd =	'rm -f ' + name + '.dvi ' + name + '.log ' + name + '.aux ' + name + '.ps ';
+		const rm_cmd =	'cd ' +dirname+ '; rm -f ' + name + '.dvi ' + name + '.log ' + name + '.aux ' + name + '.ps ';
 
-		const child = execSync(cmd,
-		  (error, stdout, stderr) => {
-		    console.log(`stdout: ${stdout}`);
-		    console.log(`stderr: ${stderr}`);
-		    if (error !== null) {
-		      console.log(`exec error: ${error}`);
-		    }else{
+		const child = execSync(cmd);
 
-		    }
-		});
-
-
+		exec(rm_cmd)
 
 
 	    try{
