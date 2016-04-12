@@ -1,7 +1,7 @@
 "use strict";
 var ejs = require('ejs');
 var fs = require('fs');
-var template = fs.readFileSync('./templates/equation.tex.ejs', 'utf-8');
+var template = fs.readFileSync(__dirname + '/templates/equation.tex.ejs', 'utf-8');
 var tmp = require('tmp');
 var path = require('path')
 const execSync = require('child_process').execSync;
