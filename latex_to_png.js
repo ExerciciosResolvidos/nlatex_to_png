@@ -43,8 +43,7 @@ var latex_to_png = {
 
 	}
 }
-var content = latex_to_png.render('a*b', 5)
 
 // var content = latex_to_png.render('\\cancel{a}*b', "test.png",5)
-console.log(content)
+// console.log(content)
 module.exports = latex_to_png
