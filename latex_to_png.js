@@ -2,20 +2,15 @@
 var ejs = require('ejs');
 var fs = require('fs');
 var template = fs.readFileSync('./templates/equation.tex.ejs', 'utf-8');
-var execSync = require('exec-sync');
 var tmp = require('tmp');
 var path = require('path')
+const execSync = require('child_process').execSync;
 
-function puts(error, stdout, stderr) { 
-	sys.puts("error: " + error)
-	sys.puts("stderr: " +stderr)
-	sys.puts("stdout: " +stdout)
-}
 
 var latex_to_png = {
 
-	render: function(formula,filename,size){
-    var density = parseInt((300/10)*size)
+	render: function(formula,size){
+    	var density = parseInt((300/10)*size)
 
 		var rendered_formula = ejs.render(template, { formula: formula })
 		var tmp_file = tmp.fileSync();
@@ -26,30 +21,38 @@ var latex_to_png = {
 		var basename = path.basename(tmp_file.name)
 		var name = basename.replace(/\..*$/g,"")
 
-		//	console.log(name)
+		var cmd = 'cd ' +dirname+ '; latex -halt-on-error ' + name +'.tmp && '+
+				'dvips -q* -E ' + name + '.dvi  && ' +
+				'convert -density '+ density + 'x'+density + ' ' + name + '.ps '  + name + '.png' 
 
-		// console.log(rendered_formula)
-		//	console.log(dirname)
-				var test = `test `
-				console.log(test)
-		execSync('latex -halt-on-error ' + tmp_file.name + ' >> '+ dirname + '/convert_'+name+'.log');
-		execSync('dvips -q* -E ' + name + '.dvi  >> convert_'+ name + '.log');
-		execSync('convert -density '+ density + 'x'+density + ' ' + name + '.ps '+ filename+'  >> convert_' +name + '.log');
-		execSync('rm -f ' + name + '.dvi ' + name + '.log ' + name + '.aux ' + name + '.ps');
 
-    if(fs.existsSync(filename)){
-      execSync('rm -f convert_' + name + '.log')
-      return fs.readFileSync(filename);
+		const rm_cmd =	'rm -f ' + name + '.dvi ' + name + '.log ' + name + '.aux ' + name + '.ps ';
 
-    }else{
-      execSync('cp '+ tmp_file.name + ' '+ dirname +'/origin_' + name + '.log')
-      throw Error("latex to png fail")
-    }
+		const child = execSync(cmd,
+		  (error, stdout, stderr) => {
+		    console.log(`stdout: ${stdout}`);
+		    console.log(`stderr: ${stderr}`);
+		    if (error !== null) {
+		      console.log(`exec error: ${error}`);
+		    }else{
+
+		    }
+		});
+
+
+
+
+	    try{
+	      return fs.readFileSync("/tmp/"+name + ".png");
+	    }catch(err){
+	    	console.dir(err)
+	    }	
 
 
 	}
 }
+var content = latex_to_png.render('a*b', 5)
 
-var content = latex_to_png.render("a*b", "test.png",5)
+// var content = latex_to_png.render('\\cancel{a}*b', "test.png",5)
 console.log(content)
 module.exports = latex_to_png
