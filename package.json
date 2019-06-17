@@ -1,8 +1,8 @@
 {
   "name": "latex_to_png",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Wrapper for latex and imageMagick",
-  "main": "latex_to_png.js",
+  "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test mocha"
   },
@@ -18,7 +18,6 @@
   "dependencies": {
     "ejs": "^2.4.1",
     "tmp": "0.0.28"
-    
   },
   "devDependencies": {
     "chai": "^3.5.0",
