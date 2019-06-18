@@ -13,7 +13,6 @@ module.exports = {
 
 	_generateLatexFile(formula) {
 		const latex = ejs.render(template, { formula })
-		const tmpFile = tmp.fileSync();
 		
 		return new Promise((result, reject) => {
 			tmp.file({}, (err, filename) => {
